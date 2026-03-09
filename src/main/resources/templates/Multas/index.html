@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="mainTemplate.html :: layout">
+
+<body>
+
+<div th:fragment="content">
+
+    <div class="container mt-4">
+
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h2>Listado de Multas</h2>
+
+            <!-- Botón para registrar multa -->
+            <a th:href="@{/multas/registrar}" class="btn btn-primary">
+                Registrar Multa
+            </a>
+        </div>
+
+        <table class="table table-bordered table-striped">
+
+            <thead class="table-dark">
+            <tr>
+                <th>ID</th>
+                <th>ID Préstamo</th>
+                <th>Días Retraso</th>
+                <th>Valor</th>
+                <th>Pagado</th>
+                <th>Acciones</th>
+            </tr>
+            </thead>
+
+            <tbody>
+
+            <tr th:each="m : ${multas}">
+
+                <td th:text="${m.id}"></td>
+                <td th:text="${m.prestamo.id}"></td>
+                <td th:text="${m.diasRetraso}"></td>
+                <td th:text="${m.valor}"></td>
+
+                <td>
+                    <span th:if="${m.pagado}" class="badge bg-success">
+                        Pagado
+                    </span>
+
+                    <span th:if="${!m.pagado}" class="badge bg-danger">
+                        Pendiente
+                    </span>
+                </td>
+
+                <td>
+                    <!-- Botón para pagar multa específica -->
+                    <a th:href="@{|/multas/pagar/${m.id}|}"
+                       th:if="${!m.pagado}" class="btn btn-success btn-sm">Pagar</a>
+
+                    <span th:if="${m.pagado}" class="text-muted">--</span>
+                </td>
+
+            </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+</body>
+</html>

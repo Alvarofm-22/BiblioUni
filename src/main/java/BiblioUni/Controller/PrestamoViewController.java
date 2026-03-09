@@ -8,6 +8,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+
 @Controller
 @RequestMapping("/prestamos")
 @RequiredArgsConstructor
@@ -26,6 +28,7 @@ public class PrestamoViewController {
     @GetMapping("/registrar")
     public String formulario(Model model){
 
+        model.addAttribute("fechaHoy", LocalDate.now());
         model.addAttribute("libros", libroService.listarTodo());
         model.addAttribute("usuarios", usuarioService.listar());
 
@@ -36,12 +39,13 @@ public class PrestamoViewController {
     public String registrar(
             @RequestParam Long usuarioId,
             @RequestParam String isbn,
+            @RequestParam LocalDate fechaDevolucion,
             Model model
     ){
 
         try {
 
-            prestamoService.registrarPrestamo(usuarioId,isbn);
+            prestamoService.registrarPrestamo(usuarioId,isbn,fechaDevolucion);
 
             model.addAttribute("mensaje","Préstamo registrado correctamente");
 

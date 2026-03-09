@@ -22,7 +22,8 @@ public class PrestamoController {
 
         return prestamoService.registrarPrestamo(
                 request.getUsuarioId(),
-                request.getIsbn()
+                request.getIsbn(),
+                request.getFechaDevolucion()
         );
     }
 

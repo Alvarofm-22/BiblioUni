@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="mainTemplate.html :: layout">
+
+<body>
+
+<div th:fragment="content">
+
+    <div class="container mt-4">
+
+        <h2 class="mb-4">Registrar Multa</h2>
+
+        <div class="card">
+            <div class="card-body">
+
+                <form th:action="@{/multas/guardar}" method="post">
+
+                    <div class="mb-3">
+                        <label class="form-label">Préstamo</label>
+
+                        <select name="prestamo.id" class="form-control" required>
+                            <option value="">Seleccione préstamo</option>
+
+                            <option th:each="p : ${prestamos}"
+                                    th:value="${p.id}"
+                                    th:text="${p.usuario.nombre + ' - ' + p.libro.titulo}">
+                            </option>
+
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Días de Retraso</label>
+
+                        <input type="number"
+                               id="dias"
+                               name="diasRetraso"
+                               class="form-control"
+                               required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Valor de la Multa</label>
+
+                        <input type="number"
+                               id="valor"
+                               class="form-control"
+                               readonly>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">
+                        Registrar Multa
+                    </button>
+
+                    <a th:href="@{/multas}" class="btn btn-secondary">
+                        Cancelar
+                    </a>
+
+                </form>
+
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+
+        document.getElementById("dias").addEventListener("input", function(){
+
+        let dias = this.value;
+        let valor = dias * 500;
+
+        document.getElementById("valor").value = valor;
+
+        });
+
+    </script>
+
+</div>
+
+</body>
+</html>

@@ -20,6 +20,22 @@
 
         <form th:action="@{/prestamos/registrar}" method="post">
 
+            <div class="mb-3">
+                <label class="form-label">Fecha Préstamo</label>
+                <input type="text"
+                       class="form-control"
+                       th:value="${fechaHoy}"
+                       readonly>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Fecha Devolución</label>
+                <input type="date" name="fechaDevolucion"
+                       class="form-control"
+                       th:attr="min=${fechaHoy}"
+                       required>
+            </div>
+
             <!-- USUARIO -->
             <div class="mb-3">
                 <label class="form-label">Usuario</label>
@@ -34,7 +50,6 @@
                     </option>
 
                 </select>
-
             </div>
 
             <!-- LIBRO -->
