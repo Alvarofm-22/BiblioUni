@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="mainTemplate.html :: layout">
+
+<body>
+
+<div th:fragment="content">
+
+    <div class="container mt-4">
+
+        <h2 class="mb-4">Listado de Cupones</h2>
+
+        <a th:href="@{/cupones/registrar}" class="btn btn-success mb-3">
+            Registrar Cupón
+        </a>
+
+        <table class="table table-bordered table-striped">
+
+            <thead class="table-dark">
+            <tr>
+                <th>ID</th>
+                <th>Código</th>
+                <th>Descuento</th>
+                <th>Fecha Expiración</th>
+                <th>Activo</th>
+                <th>Acciones</th>
+            </tr>
+            </thead>
+
+            <tbody>
+
+            <tr th:each="cupon : ${cupones}">
+
+                <td th:text="${cupon.id}"></td>
+                <td th:text="${cupon.codigo}"></td>
+                <td th:text="${cupon.descuento}"></td>
+                <td th:text="${cupon.fechaExpiracion}"></td>
+                <td th:text="${cupon.activo}"></td>
+
+                <td>
+                    <a th:href="@{/cupones/eliminar/{id}(id=${cupon.id})}"
+                       class="btn btn-danger btn-sm">
+                        Eliminar
+                    </a>
+                </td>
+
+            </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+</body>
+</html>

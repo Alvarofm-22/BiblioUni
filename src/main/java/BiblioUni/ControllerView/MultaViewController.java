@@ -1,4 +1,4 @@
-package BiblioUni.Controller;
+package BiblioUni.ControllerView;
 
 import BiblioUni.Model.Multa;
 import BiblioUni.Service.MultaService;

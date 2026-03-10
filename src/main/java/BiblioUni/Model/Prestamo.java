@@ -35,4 +35,9 @@ public class Prestamo {
     @ManyToOne
     @JoinColumn(name = "libro_isbn")
     private Libro libro;
+
+    // NUEVA RELACIÓN CON CUPÓN
+    @ManyToOne
+    @JoinColumn(name = "cupon_id")
+    private Cupon cupon;
 }

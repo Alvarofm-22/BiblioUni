@@ -4,11 +4,10 @@ import BiblioUni.Model.Prestamo;
 
 import java.time.LocalDate;
 import java.util.Collection;
-import java.util.List;
 
 public interface PrestamoService {
 
-    Prestamo registrarPrestamo(Long usuarioId, String isbn, LocalDate fechaDevolucion);
+    Prestamo registrarPrestamo(Long usuarioId, String isbn, LocalDate fechaDevolucion, Long cuponId);
 
     Collection<Prestamo> listarPrestamos();
 

@@ -1,5 +1,6 @@
-package BiblioUni.Controller;
+package BiblioUni.ControllerView;
 
+import BiblioUni.Service.CuponService;
 import BiblioUni.Service.LibroService;
 import BiblioUni.Service.PrestamoService;
 import BiblioUni.Service.UsuarioService;
@@ -18,6 +19,7 @@ public class PrestamoViewController {
     private final PrestamoService prestamoService;
     private final LibroService libroService;
     private final UsuarioService usuarioService;
+    private final CuponService cuponService; // NUEVO
 
     @GetMapping
     public String listar(Model model){
@@ -31,6 +33,7 @@ public class PrestamoViewController {
         model.addAttribute("fechaHoy", LocalDate.now());
         model.addAttribute("libros", libroService.listarTodo());
         model.addAttribute("usuarios", usuarioService.listar());
+        model.addAttribute("cupones", cuponService.listarTodo()); // NUEVO
 
         return "Prestamos/registrar";
     }
@@ -40,12 +43,13 @@ public class PrestamoViewController {
             @RequestParam Long usuarioId,
             @RequestParam String isbn,
             @RequestParam LocalDate fechaDevolucion,
+            @RequestParam(required = false) Long cuponId, // NUEVO
             Model model
     ){
 
         try {
 
-            prestamoService.registrarPrestamo(usuarioId,isbn,fechaDevolucion);
+            prestamoService.registrarPrestamo(usuarioId,isbn,fechaDevolucion,cuponId);
 
             model.addAttribute("mensaje","Préstamo registrado correctamente");
 
@@ -56,6 +60,7 @@ public class PrestamoViewController {
 
         model.addAttribute("libros", libroService.listarTodo());
         model.addAttribute("usuarios", usuarioService.listar());
+        model.addAttribute("cupones", cuponService.listarTodo()); // NUEVO
 
         return "Prestamos/registrar";
     }

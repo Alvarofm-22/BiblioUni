@@ -70,6 +70,24 @@
 
             </div>
 
+            <!-- CUPON -->
+            <div class="mb-3">
+
+                <label class="form-label">Cupón de descuento</label>
+
+                <select name="cuponId" class="form-control">
+
+                    <option value="">Sin cupón</option>
+
+                    <option th:each="c : ${cupones}"
+                            th:value="${c.id}"
+                            th:text="${c.codigo + ' - Descuento: ' + c.descuento}">
+                    </option>
+
+                </select>
+
+            </div>
+
             <button class="btn btn-primary">
                 Registrar
             </button>

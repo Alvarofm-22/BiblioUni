@@ -1,11 +1,8 @@
 package BiblioUni.Service;
 
 import BiblioUni.Enum.EstadoPrestamo;
-import BiblioUni.Model.Docente;
-import BiblioUni.Model.Estudiante;
-import BiblioUni.Model.Libro;
-import BiblioUni.Model.Prestamo;
-import BiblioUni.Model.Usuario;
+import BiblioUni.Model.*;
+import BiblioUni.Repository.CuponRepository;
 import BiblioUni.Repository.LibroRepository;
 import BiblioUni.Repository.PrestamoRepository;
 import BiblioUni.Repository.UsuarioRepository;
@@ -23,9 +20,14 @@ public class PrestamoServiceImpl implements PrestamoService {
     private final PrestamoRepository prestamoRepository;
     private final UsuarioRepository usuarioRepository;
     private final LibroRepository libroRepository;
+    private final CuponRepository cuponRepository; // NUEVO
 
     @Override
-    public Prestamo registrarPrestamo(Long usuarioId, String isbn, LocalDate fechaDevolucion) {
+    @Transactional
+    public Prestamo registrarPrestamo(Long usuarioId,
+                                      String isbn,
+                                      LocalDate fechaDevolucion,
+                                      Long cuponId) {
 
         Usuario usuario = usuarioRepository.findById(usuarioId)
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
@@ -42,13 +44,27 @@ public class PrestamoServiceImpl implements PrestamoService {
         prestamo.setUsuario(usuario);
         prestamo.setLibro(libro);
 
-        // FECHA AUTOMATICA
+        // FECHA AUTOMÁTICA
         prestamo.setFechaPrestamo(LocalDate.now());
-
         prestamo.setFechaDevolucion(fechaDevolucion);
 
-        libro.setCantDisponible(libro.getCantDisponible() - 1);
+        prestamo.setEstado(EstadoPrestamo.ACTIVO);
 
+        // ASIGNAR CUPÓN SI EXISTE
+        if(cuponId != null){
+
+            Cupon cupon = cuponRepository.findById(cuponId)
+                    .orElseThrow(() -> new RuntimeException("Cupón no encontrado"));
+
+            if(Boolean.FALSE.equals(cupon.getActivo())){
+                throw new RuntimeException("El cupón no está activo");
+            }
+
+            prestamo.setCupon(cupon);
+        }
+
+        // DESCONTAR LIBRO
+        libro.setCantDisponible(libro.getCantDisponible() - 1);
         libroRepository.save(libro);
 
         return prestamoRepository.save(prestamo);
@@ -76,6 +92,6 @@ public class PrestamoServiceImpl implements PrestamoService {
             return docente.getMaxPrestamos();
         }
 
-        return 3; // valor por defecto
+        return 3;
     }
 }

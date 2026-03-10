@@ -1,4 +1,4 @@
-package BiblioUni.Controller;
+package BiblioUni.ControllerView;
 
 import BiblioUni.Model.Usuario;
 import BiblioUni.Service.UsuarioService;
@@ -19,7 +19,7 @@ public class UsuarioViewController {
 
         model.addAttribute("usuarios", usuarioService.listar());
 
-        return "usuarios/lista";
+        return "Usuario/index";
     }
 
     @GetMapping("/nuevo")
@@ -27,7 +27,7 @@ public class UsuarioViewController {
 
         model.addAttribute("usuario", new Usuario());
 
-        return "usuarios/form";
+        return "Usuario/registrar";
     }
 
     @PostMapping("/guardar")
@@ -47,7 +47,7 @@ public class UsuarioViewController {
 
         model.addAttribute("usuario", usuarioService.buscarPorId(id));
 
-        return "usuarios/form";
+        return "Usuario/registrar";
     }
 
     @GetMapping("/eliminar/{id}")
