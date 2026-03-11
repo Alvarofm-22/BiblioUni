@@ -62,6 +62,6 @@ public class PrestamoViewController {
         model.addAttribute("usuarios", usuarioService.listar());
         model.addAttribute("cupones", cuponService.listarTodo()); // NUEVO
 
-        return "Prestamos/registrar";
+        return "Prestamos/prestamos";
     }
 }
